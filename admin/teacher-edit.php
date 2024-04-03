@@ -10,8 +10,11 @@ if (isset($_SESSION['admin_id']) &&
        include "function/subject.php";
        include "function/grade.php";
        include "function/teacher.php";
+       include "function/section.php";
+       include "function/class.php";
        $subjects = getAllSubjects($conn);
-       $grades = getAllGrades($conn);
+
+       $classes  = getAllClasses($conn);
        
        $teacher_id = $_GET['teacher_id'];
        $teacher = getTeacherById($teacher_id, $conn);
@@ -31,7 +34,7 @@ if (isset($_SESSION['admin_id']) &&
 	<title>Admin - Chỉnh sửa giáo viên</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
-	<link rel="icon" href="../logo.png">
+	<!-- <link rel="icon" href="../logo.png"> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -57,7 +60,7 @@ if (isset($_SESSION['admin_id']) &&
            <?=$_GET['success']?>
           </div>
         <?php } ?>
-        <div class="mb-3">
+        <div class="mb-3">  
           <label class="form-label">Tên</label>
           <input type="text" 
                  class="form-control"
@@ -77,6 +80,60 @@ if (isset($_SESSION['admin_id']) &&
                  class="form-control"
                  value="<?=$teacher['username']?>"
                  name="username">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Địa chỉ</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$teacher['address']?>"
+                 name="address">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Số nhân viên</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$teacher['employee_number']?>"
+                 name="employee_number">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Ngày sinh</label>
+          <input type="date" 
+                 class="form-control"
+                 value="<?=$teacher['date_of_birth']?>"
+                 name="date_of_birth">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Số điện thoại</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$teacher['phone_number']?>"
+                 name="phone_number">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Trình độ chuyên môn</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$teacher['qualification']?>"
+                 name="qualification">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Địa chỉ email</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$teacher['email_address']?>"
+                 name="email_address">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Giới tính</label><br>
+          <input type="radio"
+                 value="Male"
+                 <?php if($teacher['gender'] == 'Male') echo 'checked';  ?> 
+                 name="gender"> Nam
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio"
+                 value="Female"
+                 <?php if($teacher['gender'] == 'Female') echo 'checked';  ?> 
+                 name="gender"> Nữ
         </div>
         <input type="text"
                 value="<?=$teacher['teacher_id']?>"
@@ -108,21 +165,22 @@ if (isset($_SESSION['admin_id']) &&
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label">Cấp</label>
+          <label class="form-label">Lớp</label>
           <div class="row row-cols-5">
             <?php 
-            $grade_ids = str_split(trim($teacher['grades']));
-            foreach ($grades as $grade){ 
+            $class_ids = str_split(trim($teacher['class']));
+            foreach ($classes as $class){ 
               $checked =0;
-              foreach ($grade_ids as $grade_id ) {
-                if ($grade_id == $grade['grade_id']) {
+              foreach ($class_ids as $class_id ) {
+                if ($class_id == $class['class_id']) {
                    $checked =1;
                 }
               }
+              $grade = getGradeById($class['class_id'], $conn);
             ?>
             <div class="col">
               <input type="checkbox"
-                     name="grades[]"
+                     name="classes[]"
                      <?php if($checked) echo "checked"; ?>
                      value="<?=$grade['grade_id']?>">
                      <?=$grade['grade_code']?>-<?=$grade['grade']?>

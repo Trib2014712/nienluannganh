@@ -6,39 +6,35 @@ if (isset($_SESSION['admin_id']) &&
     if ($_SESSION['role'] == 'Admin') {
       
        include "../db_conection.php";
-       include "function/grade.php";
-       include "function/section.php";
-       $grades = getAllGrades($conn);
-       $sections = getAllSections($conn);
+
 
        $fname = '';
        $lname = '';
        $uname = '';
        $address = '';
+       $en = '';
+       $pn = '';
+       $qf = '';
        $email = '';
-       $pfn = '';
-       $pln = '';
-       $ppn = '';
-
 
        if (isset($_GET['fname'])) $fname = $_GET['fname'];
        if (isset($_GET['lname'])) $lname = $_GET['lname'];
        if (isset($_GET['uname'])) $uname = $_GET['uname'];
        if (isset($_GET['address'])) $address = $_GET['address'];
+       if (isset($_GET['en'])) $en = $_GET['en'];
+       if (isset($_GET['pn'])) $pn = $_GET['pn'];
+       if (isset($_GET['qf'])) $qf = $_GET['qf'];
        if (isset($_GET['email'])) $email = $_GET['email'];
-       if (isset($_GET['pfn'])) $pfn = $_GET['pfn'];
-       if (isset($_GET['pln'])) $pln = $_GET['pln'];
-       if (isset($_GET['ppn'])) $ppn = $_GET['ppn'];
  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Thêm sinh viên</title>
+	<title>Admin - Thêm văn phòng đăng ký</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
-	<!-- <link rel="icon" href="../logo.png"> -->
+	<link rel="icon" href="../logo.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -47,13 +43,13 @@ if (isset($_SESSION['admin_id']) &&
         include "include/navbar.php";
      ?>
      <div class="container mt-5">
-        <a href="student.php"
+        <a href="registrar-office.php"
            class="btn btn-dark">Quay lại</a>
 
         <form method="post"
               class="shadow p-3 mt-5 form-w" 
-              action="req/student-add.php">
-        <h3>Thêm sinh viên mới</h3><hr>
+              action="req/registrar-office-add.php">
+        <h3>Thêm người dùng văn phòng đăng ký mới</h3><hr>
         <?php if (isset($_GET['error'])) { ?>
           <div class="alert alert-danger" role="alert">
            <?=$_GET['error']?>
@@ -79,37 +75,6 @@ if (isset($_SESSION['admin_id']) &&
                  name="lname">
         </div>
         <div class="mb-3">
-          <label class="form-label">Địa chỉ</label>
-          <input type="text" 
-                 class="form-control"
-                 value="<?=$address?>"
-                 name="address">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Địa chỉ email</label>
-          <input type="text" 
-                 class="form-control"
-                 value="<?=$email?>"
-                 name="email_address">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Ngày sinh</label>
-          <input type="date" 
-                 class="form-control"
-                 name="date_of_birth">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Giới tính</label><br>
-          <input type="radio"
-                 value="Male"
-                 checked 
-                 name="gender"> Nam
-                 &nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio"
-                 value="Female"
-                 name="gender"> Nữ
-        </div><br><hr>
-        <div class="mb-3">
           <label class="form-label">Tên tài khoản</label>
           <input type="text" 
                  class="form-control"
@@ -125,59 +90,63 @@ if (isset($_SESSION['admin_id']) &&
                      id="passInput">
               <button class="btn btn-secondary"
                       id="gBtn">
-                      Ngẩu nhiên</button>
+                      Ngẫu nhiên</button>
           </div>
-        </div><br> <hr>
+          
+        </div>
         <div class="mb-3">
-          <label class="form-label"> Tên cha mẹ</label>
+          <label class="form-label">Địa chỉ</label>
           <input type="text" 
                  class="form-control"
-                 value="<?=$pfn?>"
-                 name="parent_fname">
+                 value="<?=$address?>"
+                 name="address">
         </div>
         <div class="mb-3">
-          <label class="form-label">Họ của cha mẹ</label>
+          <label class="form-label">Số nhân viên</label>
           <input type="text" 
                  class="form-control"
-                 value="<?=$pln?>"
-                 name="parent_lname">
+                 value="<?=$en?>"
+                 name="employee_number">
         </div>
         <div class="mb-3">
-          <label class="form-label">Số điện thoại của cha mẹ</label>
+          <label class="form-label">Số điện thoại</label>
           <input type="text" 
                  class="form-control"
-                 value="<?=$ppn?>"
-                 name="parent_phone_number">
-        </div><br><hr>
-        <div class="mb-3">
-          <label class="form-label">Grade</label>
-          <div class="row row-cols-5">
-            <?php foreach ($grades as $grade): ?>
-            <div class="col">
-              <input type="radio"
-                     name="grade"
-                     value="<?=$grade['grade_id']?>">
-                     <?=$grade['grade_code']?>-<?=$grade['grade']?>
-            </div>
-            <?php endforeach ?>
-             
-          </div>
+                 value="<?=$pn?>"
+                 name="phone_number">
         </div>
         <div class="mb-3">
-          <label class="form-label">Cấp</label>
-          <div class="row row-cols-5">
-            <?php foreach ($sections as $section): ?>
-            <div class="col">
-              <input type="radio"
-                     name="section"
-                     value="<?=$section['section_id']?>">
-                     <?=$section['section']?>
-            </div>
-            <?php endforeach ?>
-             
-          </div>
+          <label class="form-label">Trình độ chuyên môn</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$qf?>"
+                 name="qualification">
         </div>
-
+        <div class="mb-3">
+          <label class="form-label">Địa chỉ email</label>
+          <input type="text" 
+                 class="form-control"
+                 value="<?=$email?>"
+                 name="email_address">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Giới tính</label><br>
+          <input type="radio"
+                 value="Male"
+                 checked 
+                 name="gender">Nam
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio"
+                 value="Female"
+                 name="gender"> Nữ
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Ngày sinh</label>
+          <input type="date" 
+                 class="form-control"
+                 value=""
+                 name="date_of_birth">
+        </div>
       <button type="submit" class="btn btn-primary">Thêm</button>
      </form>
      </div>
@@ -185,7 +154,7 @@ if (isset($_SESSION['admin_id']) &&
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>	
     <script>
         $(document).ready(function(){
-             $("#navLinks li:nth-child(3) a").addClass('active');
+             $("#navLinks li:nth-child(7) a").addClass('active');
         });
 
         function makePass(length) {

@@ -4,17 +4,20 @@ if (isset($_SESSION['admin_id']) &&
     isset($_SESSION['role'])) {
 
     if ($_SESSION['role'] == 'Admin') {
+        if (isset($_GET['searchKey'])) {
+
+            $search_key = $_GET['searchKey'];
        include "../db_conection.php";
        include "function/student.php";
        include "function/grade.php";
-       $students = getAllStudents($conn);
+       $students = searchStudents($search_key,$conn);
  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Sinh viên</title>
+	<title>Admin - Tìm kiếm sinh viên</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
 	<!-- <link rel="icon" href="../logo.png"> -->
@@ -31,7 +34,7 @@ if (isset($_SESSION['admin_id']) &&
            class="btn btn-dark">Thêm sinh viên mới</a>
            <form action="student-search.php" 
                  class="mt-3 n-table"
-                 method="get">
+                 method="post">
              <div class="input-group mb-3">
                 <input type="text" 
                        class="form-control"
@@ -110,6 +113,7 @@ if (isset($_SESSION['admin_id']) &&
              <div class="alert alert-info .w-450 m-5" 
                   role="alert">
                   Trống!
+                  <a href="teacher.php" class="btn btn-dark">Quay lại</a>
               </div>
          <?php } ?>
      </div>
@@ -124,6 +128,10 @@ if (isset($_SESSION['admin_id']) &&
 </body>
 </html>
 <?php 
+}else {
+    header("Location: student.php");
+    exit;
+  } 
 
   }else {
     header("Location: ../login.php");

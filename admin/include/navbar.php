@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.php">
-      <img src="../logo.png" width="40">
+      <!-- <img src="../logo.png" width="40"> -->
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -21,19 +21,19 @@
           <a class="nav-link" href="student.php">Học Sinh</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#contact">Phòng đăng ký</a>
+          <a class="nav-link" href="registrar-office.php">Phòng đăng ký</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#contact">Lớp Học</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#contact">Section</a>
-        </li>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#contact">Lịch Trình</a>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link" href="#contact">Thời Khóa Biểu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#contact">Khóa Học</a>
+          <a class="nav-link" href="course.php">Khóa Học</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#contact">Cài đặt</a>

@@ -2,48 +2,52 @@
 session_start();
 if (isset($_SESSION['admin_id']) && 
     isset($_SESSION['role'])) {
-
     if ($_SESSION['role'] == 'Admin') {
+        if (isset($_GET['searchKey'])) {
+
+            $search_key = $_GET['searchKey'];
        include "../db_conection.php";
-       include "function/student.php";
+       include "function/teacher.php";
+       include "function/subject.php";
        include "function/grade.php";
-       $students = getAllStudents($conn);
+       $teachers = searchTeachers($search_key, $conn);
  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Sinh viên</title>
+	<title>Admin - Giáo viên</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
-	<!-- <link rel="icon" href="../logo.png"> -->
+	<link rel="icon" href="../logo.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <?php 
         include "include/navbar.php";
-        if ($students != 0) {
+        if ($teachers != 0) {
      ?>
      <div class="container mt-5">
-        <a href="student-add.php"
-           class="btn btn-dark">Thêm sinh viên mới</a>
-           <form action="student-search.php" 
+        <a href="teacher-add.php"
+           class="btn btn-dark">Thêm giáo viên mới</a>
+
+           <form action="teacher-search.php" 
                  class="mt-3 n-table"
                  method="get">
              <div class="input-group mb-3">
                 <input type="text" 
                        class="form-control"
                        name="searchKey"
-                       placeholder="Tìm kiem...">
+                       value="<?=$search_key?>" 
+                       placeholder="Search...">
                 <button class="btn btn-primary">
                         <i class="fa fa-search" 
                            aria-hidden="true"></i>
                       </button>
              </div>
            </form>
-
 
            <?php if (isset($_GET['error'])) { ?>
             <div class="alert alert-danger mt-3 n-table" 
@@ -68,37 +72,49 @@ if (isset($_SESSION['admin_id']) &&
                     <th scope="col">Tên</th>
                     <th scope="col">Họ</th>
                     <th scope="col">Tên tài khoản</th>
+                    <th scope="col">Môn học</th>
                     <th scope="col">Cấp</th>
                     <th scope="col">Hoạt động</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php $i = 0; foreach ($students as $student ) { 
-                    $i++;  ?>
+                  <?php foreach ($teachers as $teacher ) { ?>
                   <tr>
-                    <th scope="row"><?=$i?></th>
-                    <td><?=$student['student_id']?></td>
+                    <th scope="row">1</th>
+                    <td><?=$teacher['teacher_id']?></td>
+                    <td><a href="teacher-view.php?teacher_id=<?=$teacher['teacher_id']?>">
+                         <?=$teacher['fname']?></a></td>
+                    <td><?=$teacher['lname']?></td>
+                    <td><?=$teacher['username']?></td>
                     <td>
-                      <a href="student-view.php?student_id=<?=$student['student_id']?>">
-                        <?=$student['fname']?>
-                      </a>
-                    </td>
-                    <td><?=$student['lname']?></td>
-                    <td><?=$student['username']?></td>
-                    <td>
-                      <?php 
-                           $grade = $student['grade'];
-                           $g_temp = getGradeById($grade, $conn);
-                           if ($g_temp != 0) {
-                              echo $g_temp['grade_code'].'-'.
-                                     $g_temp['grade'];
-                            }
+                       <?php 
+                           $s = '';
+                           $subjects = str_split(trim($teacher['subjects']));
+                           foreach ($subjects as $subject) {
+                              $s_temp = getSubjectById($subject, $conn);
+                              if ($s_temp != 0) 
+                                $s .=$s_temp['subject_code'].', ';
+                           }
+                           echo $s;
                         ?>
                     </td>
                     <td>
-                        <a href="student-edit.php?student_id=<?=$student['student_id']?>"
+                      <?php 
+                           $g = '';
+                           $grades = str_split(trim($teacher['grades']));
+                           foreach ($grades as $grade) {
+                              $g_temp = getGradeById($grade, $conn);
+                              if ($g_temp != 0) 
+                                $g .=$g_temp['grade_code'].'-'.
+                                     $g_temp['grade'].', ';
+                           }
+                           echo $g;
+                        ?>
+                    </td>
+                    <td>
+                        <a href="teacher-edit.php?teacher_id=<?=$teacher['teacher_id']?>"
                            class="btn btn-warning">Chỉnh sửa</a>
-                        <a href="student-delete.php?student_id=<?=$student['student_id']?>"
+                        <a href="teacher-delete.php?teacher_id=<?=$teacher['teacher_id']?>"
                            class="btn btn-danger">Xóa</a>
                     </td>
                   </tr>
@@ -109,7 +125,9 @@ if (isset($_SESSION['admin_id']) &&
          <?php }else{ ?>
              <div class="alert alert-info .w-450 m-5" 
                   role="alert">
-                  Trống!
+                  Trống! 
+                  <a href="teacher.php" class="btn btn-dark">Quay lại</a>
+
               </div>
          <?php } ?>
      </div>
@@ -117,13 +135,17 @@ if (isset($_SESSION['admin_id']) &&
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>	
     <script>
         $(document).ready(function(){
-             $("#navLinks li:nth-child(3) a").addClass('active');
+             $("#navLinks li:nth-child(2) a").addClass('active');
         });
     </script>
 
 </body>
 </html>
 <?php 
+    }else {
+        header("Location: teacher.php");
+        exit;
+       } 
 
   }else {
     header("Location: ../login.php");

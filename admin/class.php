@@ -5,45 +5,31 @@ if (isset($_SESSION['admin_id']) &&
 
     if ($_SESSION['role'] == 'Admin') {
        include "../db_conection.php";
-       include "function/student.php";
+       include "function/class.php";
        include "function/grade.php";
-       $students = getAllStudents($conn);
+       include "function/section.php";
+       $classes = getAllClasses($conn);
  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Sinh viên</title>
+	<title>Admin - Lớp</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
-	<!-- <link rel="icon" href="../logo.png"> -->
+	<link rel="icon" href="../logo.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <?php 
         include "include/navbar.php";
-        if ($students != 0) {
+        if ($classes != 0) {
      ?>
      <div class="container mt-5">
-        <a href="student-add.php"
-           class="btn btn-dark">Thêm sinh viên mới</a>
-           <form action="student-search.php" 
-                 class="mt-3 n-table"
-                 method="get">
-             <div class="input-group mb-3">
-                <input type="text" 
-                       class="form-control"
-                       name="searchKey"
-                       placeholder="Tìm kiem...">
-                <button class="btn btn-primary">
-                        <i class="fa fa-search" 
-                           aria-hidden="true"></i>
-                      </button>
-             </div>
-           </form>
-
+        <a href="class-add.php"
+           class="btn btn-dark">Thêm lớp mới</a>
 
            <?php if (isset($_GET['error'])) { ?>
             <div class="alert alert-danger mt-3 n-table" 
@@ -64,41 +50,25 @@ if (isset($_SESSION['admin_id']) &&
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Tên</th>
-                    <th scope="col">Họ</th>
-                    <th scope="col">Tên tài khoản</th>
-                    <th scope="col">Cấp</th>
-                    <th scope="col">Hoạt động</th>
+                    <th scope="col">Lớp</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php $i = 0; foreach ($students as $student ) { 
+                  <?php $i = 0; foreach ($classes as $class ) { 
                     $i++;  ?>
                   <tr>
                     <th scope="row"><?=$i?></th>
-                    <td><?=$student['student_id']?></td>
-                    <td>
-                      <a href="student-view.php?student_id=<?=$student['student_id']?>">
-                        <?=$student['fname']?>
-                      </a>
-                    </td>
-                    <td><?=$student['lname']?></td>
-                    <td><?=$student['username']?></td>
                     <td>
                       <?php 
-                           $grade = $student['grade'];
-                           $g_temp = getGradeById($grade, $conn);
-                           if ($g_temp != 0) {
-                              echo $g_temp['grade_code'].'-'.
-                                     $g_temp['grade'];
-                            }
-                        ?>
+                          $grade  = getGradeById($class['grade'], $conn);
+                          $section = getSectioById($class['section'], $conn);
+                          echo $grade['grade_code'].'-'.$grade['grade'].$section['section'];
+                       ?>
                     </td>
                     <td>
-                        <a href="student-edit.php?student_id=<?=$student['student_id']?>"
+                        <a href="class-edit.php?class_id=<?=$class['class_id']?>"
                            class="btn btn-warning">Chỉnh sửa</a>
-                        <a href="student-delete.php?student_id=<?=$student['student_id']?>"
+                        <a href="class-delete.php?class_id=<?=$class['class_id']?>"
                            class="btn btn-danger">Xóa</a>
                     </td>
                   </tr>
@@ -109,7 +79,7 @@ if (isset($_SESSION['admin_id']) &&
          <?php }else{ ?>
              <div class="alert alert-info .w-450 m-5" 
                   role="alert">
-                  Trống!
+                Trống!
               </div>
          <?php } ?>
      </div>
@@ -117,7 +87,7 @@ if (isset($_SESSION['admin_id']) &&
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>	
     <script>
         $(document).ready(function(){
-             $("#navLinks li:nth-child(3) a").addClass('active');
+             $("#navLinks li:nth-child(6) a").addClass('active');
         });
     </script>
 

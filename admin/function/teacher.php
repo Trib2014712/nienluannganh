@@ -1,6 +1,6 @@
 <?php  
 
-// Get Teacher by ID
+// Nhận giáo viên theo ID
 function getTeacherById($teacher_id, $conn){
    $sql = "SELECT * FROM teachers
            WHERE teacher_id=?";
@@ -15,7 +15,7 @@ function getTeacherById($teacher_id, $conn){
    }
 }
 
-// All Teachers 
+// Liệt kê tất cả giáo viên
 function getAllTeachers($conn){
    $sql = "SELECT * FROM teachers";
    $stmt = $conn->prepare($sql);
@@ -29,7 +29,7 @@ function getAllTeachers($conn){
    }
 }
 
-// Check if the username Unique
+// Kiểm tra xem tên người dùng có duy nhất không
 function unameIsUnique($uname, $conn, $teacher_id=0){
    $sql = "SELECT username, teacher_id FROM teachers
            WHERE username=?";
@@ -57,7 +57,7 @@ function unameIsUnique($uname, $conn, $teacher_id=0){
    
 }
 
-// DELETE
+// Xóa
 function removeTeacher($id, $conn){
    $sql  = "DELETE FROM teachers
            WHERE teacher_id=?";
@@ -68,4 +68,29 @@ function removeTeacher($id, $conn){
    }else {
     return 0;
    }
+}
+
+// Tìm kiếm
+function searchTeachers($key, $conn){
+  $key = preg_replace('/(?<!\\\)([%_])/', '\\\$1',$key);
+
+  $sql = "SELECT * FROM teachers
+          WHERE teacher_id LIKE ? 
+          OR fname LIKE ?
+          OR lname LIKE ?
+          OR username LIKE ?
+          OR employee_number LIKE ?
+          OR phone_number LIKE ?
+          OR qualification LIKE ?
+          OR email_address LIKE ?
+          OR address LIKE ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->execute([$key, $key, $key, $key, $key,$key, $key, $key, $key]);
+
+  if ($stmt->rowCount() == 1) {
+    $teachers = $stmt->fetchAll();
+    return $teachers;
+  }else {
+   return 0;
+  }
 }

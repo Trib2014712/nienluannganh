@@ -6,7 +6,7 @@
 	<title>Login - T School</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
-	<link rel="icon" href="logo.png">
+	<!-- <link rel="icon" href="logo.png"> -->
 </head>
 <body class="body-login">
     <div class="black-fill"><br /> <br />
@@ -56,7 +56,7 @@
         <br /><br />
         <div class="text-center text-light">
 		
-        	<!-- Copyright &copy; 2022 Y School. All rights reserved. -->
+    
         </div>
 
     	</div>
