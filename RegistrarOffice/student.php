@@ -1,21 +1,20 @@
 <?php 
 session_start();
-if (isset($_SESSION['admin_id']) && 
+if (isset($_SESSION['r_user_id']) && 
     isset($_SESSION['role'])) {
 
-    if ($_SESSION['role'] == 'Admin') {
+    if ($_SESSION['role'] == 'Registrar Office') {
        include "../db_conection.php";
-       include "function/subject.php";
+       include "function/student.php";
        include "function/grade.php";
-       $courses = getAllSubjects($conn);
-       
+       $students = getAllStudents($conn);
  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Course</title>
+	<title>Phòng Đăng ký - Học Sinh</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="icon" href="../logo.png">
@@ -24,12 +23,27 @@ if (isset($_SESSION['admin_id']) &&
 </head>
 <body>
     <?php 
-        include "include/navbar.php";
-        if ($courses != 0) {
+        if ($students != 0) {
      ?>
      <div class="container mt-5">
-        <a href="course-add.php"
-           class="btn btn-dark">Thêm khóa học mới</a>
+        <a href="student-add.php"
+           class="btn btn-dark">Thêm học sinh mới</a>
+        <a href="index.php"
+           class="btn btn-dark">Quay lại</a>
+           <form action="student-search.php" 
+                 class="mt-3 n-table"
+                 method="get">
+             <div class="input-group mb-3">
+                <input type="text" 
+                       class="form-control"
+                       name="searchKey"
+                       placeholder="Search...">
+                <button class="btn btn-primary">
+                        <i class="fa fa-search" 
+                           aria-hidden="true"></i>
+                      </button>
+             </div>
+           </form>
 
            <?php if (isset($_GET['error'])) { ?>
             <div class="alert alert-danger mt-3 n-table" 
@@ -50,38 +64,36 @@ if (isset($_SESSION['admin_id']) &&
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Khóa học</th>
-                    <th scope="col">Mã khóa học</th>
-                    <th scope="col">Lớp</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Họ</th>
+                    <th scope="col">Tên tài khoản</th>
+                    <th scope="col">Cấp</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
-                  <?php $i = 0; foreach ($courses as $course ) { 
+                  <?php $i = 0; foreach ($students as $student ) { 
                     $i++;  ?>
                   <tr>
                     <th scope="row"><?=$i?></th>
+                    <td><?=$student['student_id']?></td>
+                    <td>
+                      <a href="student-view.php?student_id=<?=$student['student_id']?>">
+                        <?=$student['fname']?>
+                      </a>
+                    </td>
+                    <td><?=$student['lname']?></td>
+                    <td><?=$student['username']?></td>
                     <td>
                       <?php 
-                          echo $course['subject'];
-                       ?>
-                    </td>
-                    <td>
-                      <?php 
-                          echo $course['subject_code'];
-                       ?>
-                    </td>
-                    <td>
-                      <?php 
-                          $grade = getGradeById($course['grade'], $conn);
-                          echo $grade['grade_code'].'-'.$grade['grade'];
-                       ?>
-                    </td>
-                    <td>
-                        <a href="course-edit.php?course_id=<?=$course['subject_id']?>"
-                           class="btn btn-warning">Sửa</a>
-                           
-                        <a href="course-delete.php?course_id=<?=$course['subject_id']?>"
-                           class="btn btn-danger">Xóa</a>
+                           $grade = $student['grade'];
+                           $g_temp = getGradeById($grade, $conn);
+                           if ($g_temp != 0) {
+                              echo $g_temp['grade_code'].'-'.
+                                     $g_temp['grade'];
+                            }
+                        ?>
                     </td>
                   </tr>
                 <?php } ?>
@@ -99,7 +111,7 @@ if (isset($_SESSION['admin_id']) &&
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>	
     <script>
         $(document).ready(function(){
-             $("#navLinks li:nth-child(8) a").addClass('active');
+             $("#navLinks li:nth-child(3) a").addClass('active');
         });
     </script>
 

@@ -44,8 +44,9 @@
 		    <select class="form-control"
 		            name="role">
 		    	<option value="1">Admin</option>
+				<option value="2">Giáo viên</option>
 		    	<option value="3">Sinh viên</option>
-		    	<option value="2">Giáo viên</option>
+				<option value="4">Phòng đăng ký</option>
 		    </select>
 		  </div>
 

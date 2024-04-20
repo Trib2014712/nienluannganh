@@ -7,10 +7,10 @@ if (isset($_SESSION['admin_id']) &&
     if ($_SESSION['role'] == 'Admin') {
       
        include "../db_conection.php";
-       include "function/course.php";
+       include "function/sucject.php";
        include "function/grade.php";
        $course_id = $_GET['course_id'];
-       $course = getCourseById($course_id, $conn);
+       $course = getSubjectById($course_id, $conn);
        $grades = getAllGrades($conn);
 
        if ($course == 0) {
@@ -58,14 +58,14 @@ if (isset($_SESSION['admin_id']) &&
           <label class="form-label">Tên khóa học</label>
           <input type="text" 
                  class="form-control"
-                 value="<?=$course['course_name']?>" 
+                 value="<?=$course['subject']?>" 
                  name="course_name">
         </div>
         <div class="mb-3">
           <label class="form-label">Mã khóa học</label>
           <input type="text" 
                  class="form-control"
-                 value="<?=$course['course_code']?>" 
+                 value="<?=$course['subject_code']?>" 
                  name="course_code">
         </div>
         <div class="mb-3">
@@ -89,7 +89,7 @@ if (isset($_SESSION['admin_id']) &&
         </div>
         <input type="text" 
                  class="form-control"
-                 value="<?=$course['course_id']?>"
+                 value="<?=$course['subject_id']?>"
                  name="course_id"
                  hidden>
 

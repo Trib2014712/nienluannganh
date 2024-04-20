@@ -29,18 +29,4 @@ function getSubjectById($subject_id, $conn){
    }
 }
 
-
-// DELETE course
-function removeCourse($id, $conn){
-   $sql  = "DELETE FROM subjects
-           WHERE subject_id=?";
-   $stmt = $conn->prepare($sql);
-   $re   = $stmt->execute([$id]);
-   if ($re) {
-     return 1;
-   }else {
-    return 0;
-   }
-}
-
  ?>

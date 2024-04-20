@@ -11,8 +11,8 @@ if (isset($_POST['admin_pass']) &&//isset kiểm tra biến có tồn tại hay 
     isset($_POST['c_new_pass']) &&
     isset($_POST['student_id'])) {
     
-    include '../../DB_connection.php';
-    include "../data/admin.php";
+    include '../../db_conection.php';
+    include "../function/admin.php";
 
     $admin_pass = $_POST['admin_pass'];
     $new_pass = $_POST['new_pass'];
