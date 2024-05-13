@@ -150,7 +150,7 @@ if (isset($_SESSION['admin_id']) &&
                  name="parent_phone_number">
         </div><br><hr>
         <div class="mb-3">
-          <label class="form-label">Grade</label>
+          <label class="form-label">Cấp</label>
           <div class="row row-cols-5">
             <?php foreach ($grades as $grade): ?>
             <div class="col">
@@ -164,7 +164,7 @@ if (isset($_SESSION['admin_id']) &&
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label">Cấp</label>
+          <label class="form-label">Phần</label>
           <div class="row row-cols-5">
             <?php foreach ($sections as $section): ?>
             <div class="col">

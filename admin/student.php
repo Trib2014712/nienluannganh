@@ -68,7 +68,7 @@ if (isset($_SESSION['admin_id']) &&
                     <th scope="col">Tên</th>
                     <th scope="col">Họ</th>
                     <th scope="col">Tên tài khoản</th>
-                    <th scope="col">Cấp</th>
+                    <th scope="col">Lớp</th>
                     <th scope="col">Hoạt động</th>
                   </tr>
                 </thead>

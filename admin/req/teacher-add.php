@@ -110,7 +110,7 @@ if (isset($_POST['fname']) &&
                  VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$uname, $pass, $classes, $fname, $lname, $subjects, $address, $employee_number, $date_of_birth, $phone_number, $qualification, $gender, $email_address]);
-        $sm = "New teacher registered successfully";
+        $sm = "Giáo viên mới đăng ký thành công";
         header("Location: ../teacher-add.php?success=$sm");
         exit;
 	}

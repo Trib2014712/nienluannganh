@@ -23,7 +23,7 @@ if (isset($_SESSION['admin_id']) &&
        $pn = '';
        $qf = '';
        $email = '';
-
+      //  Nếu tồn tại, chúng được gán cho các biến tương ứng ($fname, $lname, $uname, $address, $en, $pn, $qf, $email). 
        if (isset($_GET['fname'])) $fname = $_GET['fname'];
        if (isset($_GET['lname'])) $lname = $_GET['lname'];
        if (isset($_GET['uname'])) $uname = $_GET['uname'];
@@ -169,7 +169,7 @@ if (isset($_SESSION['admin_id']) &&
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label">Class</label>
+          <label class="form-label">Lớp</label>
           <div class="row row-cols-5">
             <?php foreach ($classes as $class): ?>
             <div class="col">
@@ -179,8 +179,10 @@ if (isset($_SESSION['admin_id']) &&
                      <?php 
                         $grade = getGradeById($class['grade'], $conn); 
                         $section = getSectioById($class['section'], $conn); 
+                        // hai hàm này được gọi để lấy thông tin về cấp học và phần tương ứng với ID của cấp học và phần được lưu trong cơ sở dữ liệu
                       ?>
                      <?=$grade['grade_code']?>-<?=$grade['grade'].$section['section']?>
+                     <!-- hiển thị -->
             </div>
             <?php endforeach ?>
              

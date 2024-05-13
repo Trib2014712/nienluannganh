@@ -15,9 +15,9 @@
     	<nav class="navbar navbar-expand-lg bg-light"
     	     id="homeNav">
 		  <div class="container-fluid">
-		    <a class="navbar-brand" href="#">
+		    <!-- <a class="navbar-brand" href="#">
 		    	<img src="logo.png" width="40">
-		    </a>
+		    </a> -->
 		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		      <span class="navbar-toggler-icon"></span>
 		    </button>
@@ -42,16 +42,16 @@
 		    </div>
 		</nav>
         <section class="welcome-text d-flex justify-content-center align-items-center flex-column">
-        	<img src="logo.png" >
+        	<!-- <img src="logo.png" > -->
         	<h4>Chào mừng đến với T school</h4>
         </section>
         <section id="about"
                  class="d-flex justify-content-center align-items-center flex-column">
         	<div class="card mb-3 card-1">
 			  <div class="row g-0">
-			    <div class="col-md-4">
+			    <!-- <div class="col-md-4">
 			      <img src="logo.png" class="img-fluid rounded-start" >
-			    </div>
+			    </div> -->
 			    <div class="col-md-8">
 			      <div class="card-body">
 			        <h5 class="card-title">Về chúng tôi</h5>

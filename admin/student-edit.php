@@ -142,7 +142,7 @@ if (isset($_SESSION['admin_id']) &&
              
           </div>
           <div class="mb-3">
-          <label class="form-label">Section</label>
+          <label class="form-label">Phần</label>
           <div class="row row-cols-5">
             <?php 
             $section_ids = str_split(trim($student['section']));

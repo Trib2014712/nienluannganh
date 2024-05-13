@@ -10,8 +10,8 @@ if (isset($_POST['old_pass']) &&
     isset($_POST['new_pass'])   &&
     isset($_POST['c_new_pass']) ) {
     
-    include '../../DB_connection.php';
-    include "../data/student.php";
+    include '../../db_conection.php';
+    include "../function/student.php";
 
     $old_pass = $_POST['old_pass'];
     $new_pass = $_POST['new_pass'];
@@ -20,23 +20,23 @@ if (isset($_POST['old_pass']) &&
     $student_id = $_SESSION['student_id'];
     
     if (empty($old_pass)) {
-		$em  = "Old password is required";
+		$em  = "Cần có mật khẩu cũ";
 		header("Location: ../pass.php?perror=$em");
 		exit;
 	}else if (empty($new_pass)) {
-		$em  = "New password is required";
+		$em  = "Cần có mật khẩu mới";
 		header("Location: ../pass.php?perror=$em");
 		exit;
 	}else if (empty($c_new_pass)) {
-		$em  = "Confirmation password is required";
+		$em  = "Cần có mật khẩu xác nhận";
 		header("Location: ../pass.php?perror=$em");
 		exit;
 	}else if ($new_pass !== $c_new_pass) {
-        $em  = "New password and confirm password does not match";
+        $em  = "Mật khẩu mới và mật khẩu xác nhận không khớp";
         header("Location: ../pass.php?perror=$em");
         exit;
     }else if (!studentPasswordVerify($old_pass, $conn, $student_id)) {
-        $em  = "Incorrect old password";
+        $em  = "Mật mã cũ không chính xác";
         header("Location: ../pass.php?perror=$em");
         exit;
     }else {
@@ -49,13 +49,13 @@ if (isset($_POST['old_pass']) &&
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([$new_pass, $student_id]);
-        $sm = "The password has been changed successfully!";
+        $sm = "Đã đổi mật khẩu thành công!";
         header("Location: ../pass.php?psuccess=$sm");
         exit;
 	}
     
   }else {
-  	$em = "An error occurred";
+  	$em = "Đã xảy ra lỗi";
     header("Location: ../pass.php?error=$em");
     exit;
   }

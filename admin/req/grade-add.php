@@ -25,9 +25,8 @@ if (isset($_POST['grade_code']) &&
 		header("Location: ../grade-add.php?error=$em&$data");
 		exit;
 	}else {
-        $sql  = "INSERT INTO
-                 grades(grade, grade_code)
-                 VALUES(?,?)";
+    $sql = "INSERT INTO grades(grade, grade_code) VALUES(?, ?)";
+
         $stmt = $conn->prepare($sql);
         $stmt->execute([$grade, $grade_code]);
         $sm = "Lớp mới được tạo thành công";

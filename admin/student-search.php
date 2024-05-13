@@ -113,7 +113,7 @@ if (isset($_SESSION['admin_id']) &&
              <div class="alert alert-info .w-450 m-5" 
                   role="alert">
                   Trống!
-                  <a href="teacher.php" class="btn btn-dark">Quay lại</a>
+                  <a href="student.php" class="btn btn-dark">Quay lại</a>
               </div>
          <?php } ?>
      </div>

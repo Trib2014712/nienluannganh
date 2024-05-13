@@ -35,25 +35,25 @@ if (isset($_SESSION['teacher_id']) &&
      ?>
      <div class="container mt-5">
          <div class="card" style="width: 22rem;">
-          <img src="../img/teacher-<?=$teacher['gender']?>.png" class="card-img-top" alt="...">
+          <!-- <img src="../img/teacher-<?=$teacher['gender']?>.png" class="card-img-top" alt="..."> -->
           <div class="card-body">
             <h5 class="card-title text-center">@<?=$teacher['username']?></h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">First name: <?=$teacher['fname']?></li>
-            <li class="list-group-item">Last name: <?=$teacher['lname']?></li>
-            <li class="list-group-item">Username: <?=$teacher['username']?></li>
+            <li class="list-group-item">Tên: <?=$teacher['fname']?></li>
+            <li class="list-group-item">Họ: <?=$teacher['lname']?></li>
+            <li class="list-group-item">Tài khoản: <?=$teacher['username']?></li>
 
-            <li class="list-group-item">Employee number: <?=$teacher['employee_number']?></li>
-            <li class="list-group-item">Address: <?=$teacher['address']?></li>
-            <li class="list-group-item">Date of birth: <?=$teacher['date_of_birth']?></li>
-            <li class="list-group-item">Phone number: <?=$teacher['phone_number']?></li>
-            <li class="list-group-item">Qualification: <?=$teacher['qualification']?></li>
-            <li class="list-group-item">Email address: <?=$teacher['email_address']?></li>
-            <li class="list-group-item">Gender: <?=$teacher['gender']?></li>
-            <li class="list-group-item">Date of joined: <?=$teacher['date_of_joined']?></li>
+            <li class="list-group-item">Số nhân viên: <?=$teacher['employee_number']?></li>
+            <li class="list-group-item">Địa chỉ: <?=$teacher['address']?></li>
+            <li class="list-group-item">Ngày sinh: <?=$teacher['date_of_birth']?></li>
+            <li class="list-group-item">Số điện thoại: <?=$teacher['phone_number']?></li>
+            <li class="list-group-item">Trình độ chuyên môn: <?=$teacher['qualification']?></li>
+            <li class="list-group-item">Địa chỉ emal: <?=$teacher['email_address']?></li>
+            <li class="list-group-item">Giơi tính: <?=$teacher['gender']?></li>
+            <li class="list-group-item">Ngày tham gia: <?=$teacher['date_of_joined']?></li>
 
-            <li class="list-group-item">Subject: 
+            <li class="list-group-item">Môn học: 
                 <?php 
                    $s = '';
                    $subjects = str_split(trim($teacher['subjects']));
@@ -65,7 +65,7 @@ if (isset($_SESSION['teacher_id']) &&
                    echo $s;
                 ?>
             </li>
-            <li class="list-group-item">Class: 
+            <li class="list-group-item">Lớp: 
                   <?php 
                      $c = '';
                      $classes = str_split(trim($teacher['class']));

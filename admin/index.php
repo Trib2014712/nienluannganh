@@ -35,7 +35,7 @@ if (isset($_SESSION['admin_id']) &&
                </a> 
                <a href="class.php" class="col btn btn-dark m-2 py-3">
                  <i class="fa fa-pencil-square fs-1" aria-hidden="true"></i><br>
-                 Phòng học
+                 Lớp học
                </a> 
                <a href="section.php" class="col btn btn-dark m-2 py-3">
                  <i class="fa fa-cubes fs-1" aria-hidden="true"></i><br>

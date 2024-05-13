@@ -22,13 +22,13 @@ if (isset($_POST['section'])) {
                  VALUES(?)";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$section]);
-        $sm = "New section created successfully";
+        $sm = "Phần mới được tạo thành công";
         header("Location: ../section-add.php?success=$sm");
         exit;
 	}
     
   }else {
-  	$em = "An error occurred";
+  	$em = "Đã xảy ra lỗi";
     header("Location: ../section-add.php?error=$em");
     exit;
   }

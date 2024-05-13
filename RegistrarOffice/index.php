@@ -25,12 +25,12 @@ if (isset($_SESSION['r_user_id']) &&
                <a href="student-add.php" 
                   class="col btn btn-dark m-2 py-3">
                  <i class="fa fa-user-plus fs-1" aria-hidden="true"></i><br>
-                 Đăng ký sinh viên
+                 Đăng ký học sinh
                </a> 
 
                <a href="student.php" class="col btn btn-dark m-2 py-3">
                  <i class="fa fa-user fs-1" aria-hidden="true"></i><br>
-                 Tất cả sinh viên
+                 Tất cả học sinh
                </a> 
                
                <a href="../logout.php" class="col btn btn-warning m-2 py-3 col-5">

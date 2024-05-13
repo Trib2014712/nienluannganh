@@ -1,16 +1,16 @@
 <?php 
 session_start();
-if (isset($_SESSION['student_id']) && 
+if (isset($_SESSION['teacher_id']) && 
     isset($_SESSION['role'])) {
 
-    if ($_SESSION['role'] == 'Student') {
+    if ($_SESSION['role'] == 'Teacher') {
  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Student - Change Password</title>
+	<title>Teacher - Thay đổi mật khẩu </title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="icon" href="../logo.png">
@@ -24,7 +24,7 @@ if (isset($_SESSION['student_id']) &&
      <div class="d-flex justify-content-center align-items-center flex-column">
          <form method="post"
               class="shadow p-3 my-5 form-w" 
-              action="req/student-change.php"
+              action="req/teacher-change.php"
               id="change_password">
         <h3>Thay đổi mật khẩu</h3><hr>
           <?php if (isset($_GET['perror'])) { ?>

@@ -14,17 +14,21 @@
     	<form class="login" 
     	      method="post"
     	      action="req/login.php">
-
-    		<div class="text-center">
+<!-- Biểu mẫu này được gửi đến "req/login.php" thông qua phương thức POST.
+Nó chứa các trường nhập cho tên người dùng, mật khẩu và lựa chọn vai trò.
+Nếu có lỗi xảy ra (giả sử từ quá trình đăng nhập), nó sẽ hiển thị một cảnh báo.
+Sau biểu mẫu, có một liên kết đến trang chính ("Trang chủ") -->
+    		<!-- <div class="text-center">
     			<img src="logo.png"
     			     width="100">
-    		</div>
+    		</div> -->
     		<h3>Đăng nhập</h3>
     		<?php if (isset($_GET['error'])) { ?>
     		<div class="alert alert-danger" role="alert">
 			  <?=$_GET['error']?>
 			</div>
 			<?php } ?>
+			<!-- Nó kiểm tra xem biến 'error' có tồn tại trong mảng $_GET hay không. Nếu có, điều kiện trở thành true và mã HTML bên trong nó sẽ được thực thi. -->
 		  <div class="mb-3">
 		    <label class="form-label">Tên đăng nhập</label>
 		    <input type="text" 
@@ -45,8 +49,7 @@
 		            name="role">
 		    	<option value="1">Admin</option>
 				<option value="2">Giáo viên</option>
-		    	<option value="3">Sinh viên</option>
-				<option value="4">Phòng đăng ký</option>
+		    	<option value="3">Học sinh</option>
 		    </select>
 		  </div>
 

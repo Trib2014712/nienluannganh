@@ -12,15 +12,15 @@ if (isset($_POST['uname']) &&
 	$role = $_POST['role'];
 
 	if (empty($uname)) {
-		$em  = "Username is required";
+		$em  = "tên người dùng là bắt buộc";
 		header("Location: ../login.php?error=$em");
 		exit;
 	}else if (empty($pass)) {
-		$em  = "Password is required";
+		$em  = "Cần có mật khẩu";
 		header("Location: ../login.php?error=$em");
 		exit;
 	}else if (empty($role)) {
-		$em  = "An error Occurred";
+		$em  = "Đã xảy ra lỗi";
 		header("Location: ../login.php?error=$em");
 		exit;
 	}else {
@@ -54,6 +54,7 @@ if (isset($_POST['uname']) &&
             if ($username === $uname) {
             	if (password_verify($pass, $password)) {
             		$_SESSION['role'] = $role;
+					// kiểm tra vai trò của người dùng sau khi họ đăng nhập và chuyển hướng họ đến trang tương ứng dựa trên vai trò đó.
             		if ($role == 'Admin') {
                         $id = $user['admin_id'];
                         $_SESSION['admin_id'] = $id;
@@ -76,23 +77,23 @@ if (isset($_POST['uname']) &&
                         exit;
 						
                     }else {
-                    	$em  = "Incorrect Username or Password";
+                    	$em  = "Tên đăng nhập hoặc mật khẩu không chính xác";
 				        header("Location: ../login.php?error=$em");
 				        exit;
                     }
 				    
             	}else {
-		        	$em  = "Incorrect Username or Password";
+		        	$em  = "Tên đăng nhập hoặc mật khẩu không chính xác";
 				    header("Location: ../login.php?error=$em");
 				    exit;
 		        }
             }else {
-	        	$em  = "Incorrect Username or Password";
+	        	$em  = "Tên đăng nhập hoặc mật khẩu không chính xác";
 			    header("Location: ../login.php?error=$em");
 			    exit;
 	        }
         }else {
-        	$em  = "Incorrect Username or Password";
+        	$em  = "Tên đăng nhập hoặc mật khẩu không chính xác";
 		    header("Location: ../login.php?error=$em");
 		    exit;
         }

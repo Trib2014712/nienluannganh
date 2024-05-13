@@ -9,7 +9,7 @@ if (isset($_SESSION['admin_id']) &&
 if (isset($_POST['section']) &&
     isset($_POST['grade']) &&
     isset($_POST['class_id'])) {
-    
+    // kiểm tra nó có được định nghĩa không
     include '../../db_conection.php';
 
     $section = $_POST['section'];

@@ -50,10 +50,10 @@ if (isset($_SESSION['teacher_id']) &&
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Grade</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Họ</th>
+                    <th scope="col">Tài khoản</th>
+                    <th scope="col">Lớp</th>
                   </tr>
                 </thead>
                 <tbody>  

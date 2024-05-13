@@ -11,6 +11,7 @@ if (isset($_SESSION['admin_id']) &&
        include "function/class.php";
        include "function/section.php";
        $teachers = getAllTeachers($conn);
+      //  Dữ liệu về giáo viên được lấy và lưu trữ trong biến $teachers.
 
        
  ?>
@@ -89,11 +90,14 @@ if (isset($_SESSION['admin_id']) &&
                     <td><?=$teacher['username']?></td>
                     <td>
                        <?php 
-                           $s = '';
+                           $s = ''; 
+                          //  Biến này được sử dụng để lưu trữ danh sách các mã môn học 
                            $subjects = str_split(trim($teacher['subjects']));
+                          //  Chuyển đổi chuỗi thành mảng
                            foreach ($subjects as $subject) {
                               $s_temp = getSubjectById($subject, $conn);
                               if ($s_temp != 0) 
+                              // nếu môn học được tìm thấy khác 0 mà mh đc thêm vào chuổi s
                                 $s .=$s_temp['subject_code'].', ';
                            }
                            echo $s;

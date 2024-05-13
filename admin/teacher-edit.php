@@ -9,12 +9,12 @@ if (isset($_SESSION['admin_id']) &&
        include "../db_conection.php";
        include "function/subject.php";
        include "function/grade.php";
-       include "function/teacher.php";
        include "function/section.php";
        include "function/class.php";
+       include "function/teacher.php";
        $subjects = getAllSubjects($conn);
-
        $classes  = getAllClasses($conn);
+       
        
        $teacher_id = $_GET['teacher_id'];
        $teacher = getTeacherById($teacher_id, $conn);
@@ -31,10 +31,10 @@ if (isset($_SESSION['admin_id']) &&
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Chỉnh sửa giáo viên</title>
+	<title>Admin - Edit Teacher</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
-	<!-- <link rel="icon" href="../logo.png"> -->
+	<link rel="icon" href="../logo.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -49,7 +49,7 @@ if (isset($_SESSION['admin_id']) &&
         <form method="post"
               class="shadow p-3 mt-5 form-w" 
               action="req/teacher-edit.php">
-        <h3>Chỉnh sửa thông tin giáo viên</h3><hr>
+        <h3>Chỉnh sửa giáo viên</h3><hr>
         <?php if (isset($_GET['error'])) { ?>
           <div class="alert alert-danger" role="alert">
            <?=$_GET['error']?>
@@ -60,7 +60,7 @@ if (isset($_SESSION['admin_id']) &&
            <?=$_GET['success']?>
           </div>
         <?php } ?>
-        <div class="mb-3">  
+        <div class="mb-3">
           <label class="form-label">Tên</label>
           <input type="text" 
                  class="form-control"
@@ -75,7 +75,7 @@ if (isset($_SESSION['admin_id']) &&
                  name="lname">
         </div>
         <div class="mb-3">
-          <label class="form-label">Tên tài khoản</label>
+          <label class="form-label">Tài khoản</label>
           <input type="text" 
                  class="form-control"
                  value="<?=$teacher['username']?>"
@@ -110,7 +110,7 @@ if (isset($_SESSION['admin_id']) &&
                  name="phone_number">
         </div>
         <div class="mb-3">
-          <label class="form-label">Trình độ chuyên môn</label>
+          <label class="form-label">Trình độ</label>
           <input type="text" 
                  class="form-control"
                  value="<?=$teacher['qualification']?>"
@@ -147,9 +147,11 @@ if (isset($_SESSION['admin_id']) &&
             $subject_ids = str_split(trim($teacher['subjects']));
             foreach ($subjects as $subject){ 
               $checked =0;
+              // Biến này được sử dụng để kiểm tra xem môn học hiện tại có phải là một trong các môn học mà giáo viên dạy hay không.
               foreach ($subject_ids as $subject_id ) {
                 if ($subject_id == $subject['subject_id']) {
                    $checked =1;
+                  //  Nếu ID của môn học hiện tại trong vòng lặp lồng này trùng khớp với ID của môn học đang được duyệt trong vòng lặp chính, thì biến $checked sẽ được gán giá trị 1 để đánh dấu rằng môn học đó đã được chọn
                 }
               }
             ?>
@@ -167,39 +169,32 @@ if (isset($_SESSION['admin_id']) &&
         <div class="mb-3">
           <label class="form-label">Lớp</label>
           <div class="row row-cols-5">
-            <?php 
-            $class_ids = str_split(trim($teacher['class']));
-            foreach ($classes as $class){ 
-              $checked =0;
-              foreach ($class_ids as $class_id ) {
-                if ($class_id == $class['class_id']) {
-                   $checked =1;
-                }
-              }
-              $grade = getGradeById($class['class_id'], $conn);
-            ?>
+            <?php foreach ($classes as $class): ?>
             <div class="col">
               <input type="checkbox"
                      name="classes[]"
-                     <?php if($checked) echo "checked"; ?>
-                     value="<?=$grade['grade_id']?>">
-                     <?=$grade['grade_code']?>-<?=$grade['grade']?>
+                     value="<?=$class['class_id']?>">
+                     <?php 
+                        $grade = getGradeById($class['grade'], $conn); 
+                        $section = getSectioById($class['section'], $conn); 
+                      ?>
+                     <?=$grade['grade_code']?>-<?=$grade['grade'].$section['section']?>
             </div>
-            <?php } ?>
+            <?php endforeach ?>
              
           </div>
         </div>
 
       <button type="submit" 
               class="btn btn-primary">
-              Cập nhật</button>
+              Chỉnh sửa</button>
      </form>
 
      <form method="post"
               class="shadow p-3 my-5 form-w" 
               action="req/teacher-change.php"
               id="change_password">
-        <h3>Đổi mật khẩu</h3><hr>
+        <h3>Thay đổi mật khẩu</h3><hr>
           <?php if (isset($_GET['perror'])) { ?>
             <div class="alert alert-danger" role="alert">
              <?=$_GET['perror']?>
@@ -210,7 +205,7 @@ if (isset($_SESSION['admin_id']) &&
              <?=$_GET['psuccess']?>
             </div>
           <?php } ?>
-<!-- đổi mật khẩu -->
+
        <div class="mb-3">
             <div class="mb-3">
             <label class="form-label">Mật khẩu admin</label>
@@ -227,7 +222,7 @@ if (isset($_SESSION['admin_id']) &&
                        id="passInput">
                 <button class="btn btn-secondary"
                         id="gBtn">
-                        Ngẩu nhiên</button>
+                        Random</button>
             </div>
             
           </div>
@@ -237,7 +232,7 @@ if (isset($_SESSION['admin_id']) &&
                 hidden>
 
           <div class="mb-3">
-            <label class="form-label">Xác nhận mật khẩu mới  </label>
+            <label class="form-label">Điền lại mật khẩu  </label>
                 <input type="text" 
                        class="form-control"
                        name="c_new_pass"

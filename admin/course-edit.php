@@ -7,7 +7,7 @@ if (isset($_SESSION['admin_id']) &&
     if ($_SESSION['role'] == 'Admin') {
       
        include "../db_conection.php";
-       include "function/sucject.php";
+       include "function/subject.php";
        include "function/grade.php";
        $course_id = $_GET['course_id'];
        $course = getSubjectById($course_id, $conn);
@@ -25,7 +25,7 @@ if (isset($_SESSION['admin_id']) &&
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin - Chỉnh sửa khóa học</title>
+	<title>Admin - Edit Course</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="icon" href="../logo.png">
@@ -43,7 +43,7 @@ if (isset($_SESSION['admin_id']) &&
         <form method="post"
               class="shadow p-3 mt-5 form-w" 
               action="req/course-edit.php">
-        <h3>Chỉnh sửa khóa học</h3><hr>
+        <h3>Chỉnh sửa môn học</h3><hr>
         <?php if (isset($_GET['error'])) { ?>
           <div class="alert alert-danger" role="alert">
            <?=$_GET['error']?>
@@ -55,21 +55,21 @@ if (isset($_SESSION['admin_id']) &&
           </div>
         <?php } ?>
         <div class="mb-3">
-          <label class="form-label">Tên khóa học</label>
+          <label class="form-label">Tên môn học</label>
           <input type="text" 
                  class="form-control"
                  value="<?=$course['subject']?>" 
                  name="course_name">
         </div>
         <div class="mb-3">
-          <label class="form-label">Mã khóa học</label>
+          <label class="form-label">Mã môn học</label>
           <input type="text" 
                  class="form-control"
                  value="<?=$course['subject_code']?>" 
                  name="course_code">
         </div>
         <div class="mb-3">
-          <label class="form-label">Cấp</label>
+          <label class="form-label">Lớp</label>
           <select name="grade"
                   class="form-control" >
                   <?php foreach ($grades as $grade) { 
@@ -95,7 +95,7 @@ if (isset($_SESSION['admin_id']) &&
 
       <button type="submit" 
               class="btn btn-primary">
-              Cập nhật</button>
+              Chỉnh sửa</button>
      </form>
      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>	

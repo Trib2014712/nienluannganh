@@ -1,130 +1,121 @@
-
 <?php 
 session_start();
-if (isset($_SESSION['student_id']) && 
-    isset($_SESSION['role'])) {
+if (isset($_SESSION['student_id']) && isset($_SESSION['role']) && $_SESSION['role'] == 'Student') {
+    include "../db_conection.php";
+    include "function/score.php";
+    include "function/subject.php";
 
-    if ($_SESSION['role'] == 'Student') {
- ?>
+    $student_id = $_SESSION['student_id'];
+    $scores = getScoreById($student_id, $conn);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Student - Grade Summary</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/style.css">
-	<link rel="icon" href="../logo.png">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student - Điểm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../logo.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <?php 
-        include "include/navbar.php";
-     ?>
-     <div class="d-flex justify-content-center align-items-center flex-column pt-4">
-         <h6>Year 2023 - Semester I </h6>
-         <div class="table-responsive">
-              <table class="table table-bordered mt-1 mb-5 n-table">
+    <?php include "include/navbar.php"; ?>
+    <div class="d-flex justify-content-center align-items-center flex-column pt-4">
+        <?php if ($scores != 0) {
+            $check = 0;
+            foreach ($scores as $score) { 
+                if ($score['year'] == $check) {
+                    $check = $score['year'];
+                    $csubject = getSubjectById($score['subject_id'], $conn);
+        ?>
+        <tr>
+            <td><?=$csubject['subject_code']?></td>
+            <td><?=$csubject['subject']?></td>
+            <td>
+                <?php 
+                    $total = 0;
+                    $outOf = 0;
+                    $results = explode(',', trim($score['results']));
+                    foreach ($results as $result) {
+                        $temp = explode(' ', trim($result));
+                        $total += $temp[0]; 
+                        $outOf += $temp[1]; 
+                ?>
+                <small class="border p-1">
+                    <?=$temp[0]?> / <?=$temp[1]?>
+                </small>&nbsp;
+                <?php } ?>
+            </td>
+            <td><?=$total?> / <?=$outOf?></td>
+            <td><?=gradeCalc($total)?></td>
+            <td><?=$score['semester']?></td>
+        </tr>
+        <?php } else { 
+            $check = $score['year'];
+            $csubject = getSubjectById($score['subject_id'], $conn);
+        ?>
+        <div class="table-responsive" style="width: 90%; max-width: 700px;">
+            <table class="table table-bordered mt-1 mb-5 n-table">
+                <caption style="caption-side:top">Year - <?=$score['year']?></caption>
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Mã khóa học</th>
-                    <th scope="col">Tiêu đề khóa học</th>
-                    <th scope="col">Lớp</th>
-                    <th scope="col">Kết quả</th>
-                    <th scope="col">Tổng cộng</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">Mã code môn học</th>
+                        <th scope="col">Tên môn học</th>
+                        <th scope="col">Kết quả</th>
+                        <th scope="col">Đánh giá</th>
+                        <th scope="col">Học kỳ</th>
+                    </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td scope="row">1</th>
-                    <td>Ph01</th>
-                    <td>Physics</th>
-                    <th>B+</th>
-                    <td><small class="border p-1">10/10</small>&nbsp; <small class="border p-1">20/20</small>&nbsp; <small class="border p-1">15/30</small>&nbsp; <small class="border p-1">40/40</small></th>
-                    <th>85</th>
-                  </tr>
-                  <tr>
-                    <td scope="row">2</th>
-                    <td>Ph01</th>
-                    <td>Physics</th>
-                    <th>B+</th>
-                    <td><small class="border p-1">10/10</small>&nbsp; <small class="border p-1">20/20</small>&nbsp; <small class="border p-1">15/30</small>&nbsp; <small class="border p-1">40/40</small></th>
-                    <th>85</th>
-                  </tr>
-                  <tr>
-                    <td scope="row">3</th>
-                    <td>Ph01</th>
-                    <td>Physics</th>
-                    <th>B+</th>
-                    <td><small class="border p-1">10/10</small>&nbsp; <small class="border p-1">20/20</small>&nbsp; <small class="border p-1">15/30</small>&nbsp; <small class="border p-1">40/40</small></th>
-                    <th>85</th>
-                  </tr>
-                </tbody>
-              </table>
-           </div><br />
+                    <tr>
+                        <td><?=$csubject['subject_code']?></td>
+                        <td><?=$csubject['subject']?></td>
+                        <td>
+                            <?php 
+                                $total = 0;
+                                $outOf = 0;
+                                $results = explode(',', trim($score['results']));
+                                foreach ($results as $result) { 
+                                    $temp = explode(' ', trim($result));
+                                    $total += $temp[0];
+                                    $outOf += $temp[1];
+                            ?>
+                            <small class="border p-1">
+                                <?=$temp[0]?> / <?=$temp[1]?>
+                            </small>&nbsp;
+                            <?php } ?>
+                        </td>
 
-           <h6>Year 2023 - Semester I </h6>
-           <div class="table-responsive">
-              <table class="table table-bordered mt-1 mb-5 n-table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Course Code</th>
-                    <th scope="col">Course Title</th>
-                    <th scope="col">Grade</th>
-                    <th scope="col">Results</th>
-                    <th scope="col">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td scope="row">1</th>
-                    <td>Ph01</th>
-                    <td>Physics</th>
-                    <th>B+</th>
-                    <td><small class="border p-1">10/10</small>&nbsp; <small class="border p-1">20/20</small>&nbsp; <small class="border p-1">15/30</small>&nbsp; <small class="border p-1">40/40</small></th>
-                    <th>85</th>
-                  </tr>
-                  <tr>
-                    <td scope="row">2</th>
-                    <td>Ph01</th>
-                    <td>Physics</th>
-                    <th>B+</th>
-                    <td><small class="border p-1">10/10</small>&nbsp; <small class="border p-1">20/20</small>&nbsp; <small class="border p-1">15/30</small>&nbsp; <small class="border p-1">40/40</small></th>
-                    <th>85</th>
-                  </tr>
-                  <tr>
-                    <td scope="row">3</th>
-                    <td>Ph01</th>
-                    <td>Physics</th>
-                    <th>B+</th>
-                    <td><small class="border p-1">10/10</small>&nbsp; <small class="border p-1">20/20</small>&nbsp; <small class="border p-1">15/30</small>&nbsp; <small class="border p-1">40/40</small></th>
-                    <th>85</th>
-                  </tr>
+                        <td><?=gradeCalc($total)?></td>
+                        <td><?=$score['semester']?></td>
+                    </tr>
                 </tbody>
-              </table>
-           </div>
-     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>	
-   <script>
-        $(document).ready(function(){
-             $("#navLinks li:nth-child(2) a").addClass('active');
-        });
-    </script>
+            </table>
+        </div><br />  
+        <?php } if ($score['year'] != $check) { ?>   
+        </tbody>
+    </table>
+</div><br />  
+<?php } } ?>
+<?php } else { ?>
+<div class="alert alert-info .w-450 m-5" role="alert">
+    Empty!
+</div>
+<?php } ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>   
+<script>
+    $(document).ready(function(){
+         $("#navLinks li:nth-child(2) a").addClass('active');
+    });
+</script>
 </body>
 </html>
 <?php 
-
-  }else {
+  } else {
     header("Location: ../login.php");
     exit;
   } 
-}else {
-	header("Location: ../login.php");
-	exit;
-} 
 
 ?>
